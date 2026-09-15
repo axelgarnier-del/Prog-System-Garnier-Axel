@@ -1,6 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 public class Image {
     private int width;
     private int height;
@@ -54,4 +55,20 @@ public class Image {
             System.out.println("Image PPM enregistree : " + filename);
         }
     }
+	
+	/*A verifier/a finir*/
+	static public read_txt(String filename) throws IOException {
+         try {
+            FileInputStream fis = new FileInputStream(filename)
+            byte[] buffer = new byte[128];
+            int bytesRead = fis.read(buffer);
+            System.out.println(new String(buffer, 0, bytesRead));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	
+	
+
 }
