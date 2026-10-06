@@ -32,17 +32,12 @@ public class MemoryManager {
     private void initializeFilesystem() {
         writeSuperblock();
 
-        // TODO:
-        // Réserver les blocs système 0 à 128.
-        for (int b = 0; b <= 128; b++) {
-            int off = BITMAP_OFFSET + b / 8;
-            memory[off] = (byte) (memory[off] | (1 << (b % 8)));
-        }
+		for(int i=0; i < 128; i++) {
+			setBlockUsed(i, true);
+		}
     }
 
     private void writeSuperblock() {
-        // TODO:
-        // Utiliser Utils pour écrire les métadonnées.
 
         Utils.writeString(
                 memory,
@@ -74,27 +69,28 @@ public class MemoryManager {
     public byte[] getFilesystemMemory() {
         return memory;
     }
+	
 	public boolean setBlockUsed(int blockNumber, boolean used) {
-    if (blockNumber < 0 ||
-        blockNumber >= NUM_BLOCKS) {
-        return false;
-    }
+			
+		if (blockNumber < 0 ||
+			blockNumber >= NUM_BLOCKS) {
+			return false;
+		}
 
-    int byteIndex = blockNumber / 8;
-    int bitPosition = blockNumber % 8;
-    int offset = BITMAP_OFFSET + byteIndex;
+		int byteIndex = blockNumber / 8;
+		int bitPosition = blockNumber % 8;
+		int offset = BITMAP_OFFSET + byteIndex;
 
-    if (used) {
-        // Positionner le bit à 1.
-		disk[offset] |= masque;
-    } else {
-        // Positionner le bit à 0.
-		disk[offset] &= ~masque;
-    }
+		if (used) {
+			memory[offset] = (byte) ((memory[offset]) | (1 << bitPosition));
+		} else {
+			memory[offset] = (byte) ((memory[offset]) & ~(1 << bitPosition)); // ou-exclusif
+		
+		}
 
-    return true;
+		return true;
 	}
-
+	
 	public int isBlockUsed(int blockNumber) {
 
 		if (blockNumber < 0 ||
@@ -102,31 +98,28 @@ public class MemoryManager {
 			return -1;
 		}
 
-		// TODO:
-		// Calculer byteIndex.
+
 		int byteIndex = blockNumber / 8;
-		// Calculer bitPosition.
-		int bitposition = blockNumber % 8;
-		// Lire le bit.
-		int offset = BITMAP_OFFSET + byteIndex; 
-		int octet = disk[offset] & 0xFF;
-		return (octet >> bitPosition) & 1;
+		int bitPosition = blockNumber % 8;
+		int offset = BITMAP_OFFSET + byteIndex;
+		int octet = memory[offset] & 0xFF;
+		
+		if((memory[offset] & 1 << bitPosition) !=0) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 	public int allocateBlock() {
 
-		// TODO:
-		// Parcourir les blocs de données :
-		// 129 .. NUM_BLOCKS - 1.
-		// Retourner le premier bloc libre.
-		// Le marquer immédiatement comme utilisé.
-		for (int i = 129; i < NUM_BLOCKS; i++){
-			if ()
-		}isBlockUsed(i) = 0) {
-			setBlockUsed(i, true);
-			return i ;
+		for(int i = 129; i < NUM_BLOCKS;i++) {
+			if(isBlockUsed(i) == 0) {
+				setBlockUsed(i, true);
+				return i;
+			}
+			
 		}
-
 		return -1;
 	}
 }
