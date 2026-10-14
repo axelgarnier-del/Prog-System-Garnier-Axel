@@ -64,15 +64,35 @@ public class ProcessController {
                                         File errorFile, String[] args) throws IOException {
 
         // TODO Utiliser executeSimple pour lancer le processus de base
-        
+        List<String> fullCommand = new ArrayList<>();
+
 
         // TODO Si outputFile n'est pas null, configurer la redirection
-        // processBuilder.redirectOutput(outputFile);
-		
-        // TODO Si errorFile n'est pas null, configurer la redirection d'erreur
-        // processBuilder.redirectError(errorFile);
-		
+		List<String> fullCommand = new ArrayList<>();
+		fullCommand.add(command);
+		if (args != null) {
+			fullCommand.addAll(Arrays.asList(args));
+		}
+		processBuilder.command(fullCommand);
 
+        // processBuilder.redirectOutput(outputFile);
+		if (outputFile != null) {
+			processBuilder.redirectOutput(outputFile);
+		} else {
+		processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+		}
+        // TODO Si errorFile n'est pas null, configurer la redirection d'erreur
+		if (errorFile != null){
+			processBuilder.redirectError(errorFile);
+		} else {
+			processBuilder.redirectError(ProcessBuilder.Redirect.PIPE);
+		}
+        // processBuilder.redirectError(errorFile);
+		try {
+			currentProcess = processBuilder.start();
+		}catch{
+			
+		}
         System.out.println("Redirection configurée - Sortie: " + outputFile + ", Erreur: " + errorFile);
 
         // TODO Relancer le processus avec les redirections
