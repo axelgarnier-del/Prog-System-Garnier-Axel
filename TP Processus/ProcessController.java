@@ -30,16 +30,20 @@ public class ProcessController {
      */
     public Process executeSimple(String command, String[] args) throws IOException {
         // TODO Créer un tableau pour stocker la commande complète
-        String[] fullCommand = null;
+        List<String> fullCommand = new ArrayList<>();
+		fullCommand.add(command);
+		
 
         // TODO Si args est null, fullCommand = tableau avec juste command
         // TODO Sinon, fullCommand = tableau avec command + tous les args
-
+		if (args != null) {
+			fullCommand.addAll(Arrays.asList(args));
+		}
         // TODO Configurer le ProcessBuilder avec fullCommand
         // processBuilder.command(fullCommand);
-
+		processBuilder.command(fullCommand);
         // TODO Lancer le processus avec processBuilder.start()
-        currentProcess = null;
+        currentProcess = processBuilder.start();
 
         System.out.println("Lancement de : " + command);
         return currentProcess;
@@ -60,18 +64,20 @@ public class ProcessController {
                                         File errorFile, String[] args) throws IOException {
 
         // TODO Utiliser executeSimple pour lancer le processus de base
-        Process process = null;
+        
 
         // TODO Si outputFile n'est pas null, configurer la redirection
         // processBuilder.redirectOutput(outputFile);
-
+		
         // TODO Si errorFile n'est pas null, configurer la redirection d'erreur
         // processBuilder.redirectError(errorFile);
+		
 
         System.out.println("Redirection configurée - Sortie: " + outputFile + ", Erreur: " + errorFile);
 
         // TODO Relancer le processus avec les redirections
-        currentProcess = null;
+
+		
         return currentProcess;
     }
 
@@ -86,6 +92,7 @@ public class ProcessController {
      */
     public Process executeInteractive(String command, String[] args) throws IOException {
         // TODO Utiliser executeSimple pour lancer le processus
+		
         // (Les flux restent accessibles par défaut)
 
         System.out.println("Mode interactif activé pour : " + command);
