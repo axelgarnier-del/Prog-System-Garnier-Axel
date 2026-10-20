@@ -112,7 +112,7 @@ public class ProcessController {
      */
     public Process executeInteractive(String command, String[] args) throws IOException {
         // TODO Utiliser executeSimple pour lancer le processus
-		
+		Process process = executeSimple(command, args);
         // (Les flux restent accessibles par défaut)
 
         System.out.println("Mode interactif activé pour : " + command);
@@ -176,4 +176,8 @@ public class ProcessController {
     public Process getCurrentProcess() { 
         return currentProcess; 
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d3409ec6af0e15bf7853456b97cb8de5dc2701a0
