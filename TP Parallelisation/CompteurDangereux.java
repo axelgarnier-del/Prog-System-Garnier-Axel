@@ -17,6 +17,12 @@ public class CompteurDangereux {
                 compteurGlobal++;  // RACE CONDITION ICI !
             }
             System.out.println(nom + " terminé. Compteur vu : " + compteurGlobal);
+            synchronized(verrou) {
+                // TODO: Placer ici l'opération critique
+
+                
+                compteurGlobal++;
+            }
         }
     }
 
