@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 public class ProducteurConsommateur {
 
     private static final int TAILLE_BUFFER = 5;
+    
     private static final Queue<Integer> buffer = new LinkedList<>();
 
     private static final Semaphore placesLibres = new Semaphore(TAILLE_BUFFER);
